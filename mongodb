@@ -1,0 +1,129 @@
+shreya@shreya-HP-Pavilion-Laptop-14-bf1xx:~$ mongo
+MongoDB shell version v3.6.4
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 3.6.4
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+	http://docs.mongodb.org/
+Questions? Try the support group
+	http://groups.google.com/group/mongodb-user
+Server has startup warnings: 
+2018-05-18T13:58:43.538+0530 I STORAGE  [initandlisten] 
+2018-05-18T13:58:43.538+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2018-05-18T13:58:43.538+0530 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] 
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] 
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server. 
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP 
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
+2018-05-18T13:58:46.355+0530 I CONTROL  [initandlisten] 
+> use demo1
+switched to db demo1
+> db
+demo1
+> db.createCollection("user")
+{ "ok" : 1 }
+> db.user.insert({
+... userid: 1,
+... username: 'shreya'
+... ,
+... password: 'Shreya123',
+... name: shreya
+... })
+2018-05-18T14:53:55.631+0530 E QUERY    [thread1] ReferenceError: shreya is not defined :
+@(shell):6:1
+> db.user.insert({ userid: 1, username: 'shreya' , password: 'Shreya123', name: 'shreya' })
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({ userid: 1, username: 'p123' , password: 'Prash123', name: 'prashant' })
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({ userid: 2, username: 'sanya' , password: 'Sanya123', name: 'sanyajain' })
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({ userid: 2, username: 'tanu' , password: 'Tanya123', name: 'tanya' })
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({ userid: 2, username: 'ana' , password: 'ana123', name: 'ananya' })
+WriteResult({ "nInserted" : 1 })
+> db.getCollectionNames()
+[ "user" ]
+> db.getCollectionNames().find
+function find() {
+    [native code]
+}
+> db.getCollectionNames().find()
+2018-05-18T14:58:51.485+0530 E QUERY    [thread1] TypeError: missing argument 0 when calling function Array.prototype.find :
+@(shell):1:1
+> db.getCollectionNames("user").find()
+2018-05-18T15:01:59.761+0530 E QUERY    [thread1] TypeError: missing argument 0 when calling function Array.prototype.find :
+@(shell):1:1
+> db.collection.find()
+> db.user.find
+function (query, fields, limit, skip, batchSize, options) {
+    var cursor = new DBQuery(this._mongo,
+                             this._db,
+                             this,
+                             this._fullName,
+                             this._massageObject(query),
+                             fields,
+                             limit,
+                             skip,
+                             batchSize,
+                             options || this.getQueryOptions());
+
+    {
+        const session = this.getDB().getSession();
+
+        const readPreference = session._serverSession.client.getReadPreference(session);
+        if (readPreference !== null) {
+            cursor.readPref(readPreference.mode, readPreference.tags);
+        }
+
+        const readConcern = session._serverSession.client.getReadConcern(session);
+        if (readConcern !== null) {
+            cursor.readConcern(readConcern.level);
+        }
+    }
+
+    return cursor;
+}
+> db.user.find()
+{ "_id" : ObjectId("5afe9bc1a4e3cde408fe8e9a"), "userid" : 1, "username" : "shreya", "password" : "Shreya123", "name" : "shreya" }
+{ "_id" : ObjectId("5afe9bdfa4e3cde408fe8e9b"), "userid" : 1, "username" : "p123", "password" : "Prash123", "name" : "prashant" }
+{ "_id" : ObjectId("5afe9c0da4e3cde408fe8e9c"), "userid" : 2, "username" : "sanya", "password" : "Sanya123", "name" : "sanyajain" }
+{ "_id" : ObjectId("5afe9c2aa4e3cde408fe8e9d"), "userid" : 2, "username" : "tanu", "password" : "Tanya123", "name" : "tanya" }
+{ "_id" : ObjectId("5afe9c47a4e3cde408fe8e9e"), "userid" : 2, "username" : "ana", "password" : "ana123", "name" : "ananya" }
+> db.user.insert({ userid: 3, username: 'anu' , password: 'anau23', name: 'anushka' })
+WriteResult({ "nInserted" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5afe9bc1a4e3cde408fe8e9a"), "userid" : 1, "username" : "shreya", "password" : "Shreya123", "name" : "shreya" }
+{ "_id" : ObjectId("5afe9bdfa4e3cde408fe8e9b"), "userid" : 1, "username" : "p123", "password" : "Prash123", "name" : "prashant" }
+{ "_id" : ObjectId("5afe9c0da4e3cde408fe8e9c"), "userid" : 2, "username" : "sanya", "password" : "Sanya123", "name" : "sanyajain" }
+{ "_id" : ObjectId("5afe9c2aa4e3cde408fe8e9d"), "userid" : 2, "username" : "tanu", "password" : "Tanya123", "name" : "tanya" }
+{ "_id" : ObjectId("5afe9c47a4e3cde408fe8e9e"), "userid" : 2, "username" : "ana", "password" : "ana123", "name" : "ananya" }
+{ "_id" : ObjectId("5afe9f50a4e3cde408fe8e9f"), "userid" : 3, "username" : "anu", "password" : "anau23", "name" : "anushka" }
+> db.user.insert({ userid: 4, username: 'parth' , password: 'parth123', name: 'parth' })
+WriteResult({ "nInserted" : 1 })
+> db.user.update({'name':'anushka'},{$set:{'name':'anu'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5afe9bc1a4e3cde408fe8e9a"), "userid" : 1, "username" : "shreya", "password" : "Shreya123", "name" : "shreya" }
+{ "_id" : ObjectId("5afe9bdfa4e3cde408fe8e9b"), "userid" : 1, "username" : "p123", "password" : "Prash123", "name" : "prashant" }
+{ "_id" : ObjectId("5afe9c0da4e3cde408fe8e9c"), "userid" : 2, "username" : "sanya", "password" : "Sanya123", "name" : "sanyajain" }
+{ "_id" : ObjectId("5afe9c2aa4e3cde408fe8e9d"), "userid" : 2, "username" : "tanu", "password" : "Tanya123", "name" : "tanya" }
+{ "_id" : ObjectId("5afe9c47a4e3cde408fe8e9e"), "userid" : 2, "username" : "ana", "password" : "ana123", "name" : "ananya" }
+{ "_id" : ObjectId("5afe9f50a4e3cde408fe8e9f"), "userid" : 3, "username" : "anu", "password" : "anau23", "name" : "anu" }
+{ "_id" : ObjectId("5afe9fbba4e3cde408fe8ea0"), "userid" : 4, "username" : "parth", "password" : "parth123", "name" : "parth" }
+> db.user.remove({'name':'parth'})
+WriteResult({ "nRemoved" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5afe9bc1a4e3cde408fe8e9a"), "userid" : 1, "username" : "shreya", "password" : "Shreya123", "name" : "shreya" }
+{ "_id" : ObjectId("5afe9bdfa4e3cde408fe8e9b"), "userid" : 1, "username" : "p123", "password" : "Prash123", "name" : "prashant" }
+{ "_id" : ObjectId("5afe9c0da4e3cde408fe8e9c"), "userid" : 2, "username" : "sanya", "password" : "Sanya123", "name" : "sanyajain" }
+{ "_id" : ObjectId("5afe9c2aa4e3cde408fe8e9d"), "userid" : 2, "username" : "tanu", "password" : "Tanya123", "name" : "tanya" }
+{ "_id" : ObjectId("5afe9c47a4e3cde408fe8e9e"), "userid" : 2, "username" : "ana", "password" : "ana123", "name" : "ananya" }
+{ "_id" : ObjectId("5afe9f50a4e3cde408fe8e9f"), "userid" : 3, "username" : "anu", "password" : "anau23", "name" : "anu" }
+
