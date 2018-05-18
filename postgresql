@@ -1,0 +1,81 @@
+postgres=# \c demo2;
+You are now connected to database "demo2" as user "postgres".
+demo2=# create table aw ( userid int primary key,
+username char(20),
+password char(10),
+name char(20)
+);
+CREATE TABLE
+demo2=# \d
+        List of relations
+ Schema | Name | Type  |  Owner   
+--------+------+-------+----------
+ public | aw   | table | postgres
+(1 row)
+
+demo2=# \d aw
+                     Table "public.aw"
+  Column  |     Type      | Collation | Nullable | Default 
+----------+---------------+-----------+----------+---------
+ userid   | integer       |           | not null | 
+ username | character(20) |           |          | 
+ password | character(10) |           |          | 
+ name     | character(20) |           |          | 
+Indexes:
+    "aw_pkey" PRIMARY KEY, btree (userid)                    ^
+demo2=# insert into aw (userid,username,password,name) values (1,'blabla','Blabla123','BlaBlaBla');
+INSERT 0 1
+demo2=# insert into aw (userid,username,password,name) values (2,'shreya','shreya123','shreyabirthare');
+INSERT 0 1
+demo2=# insert into aw (userid,username,password,name) values (3,'prashant','prash123','prashant');
+INSERT 0 1
+demo2=# insert into aw (userid,username,password,name) values (4,'tanu','tanya123','tanyajain');
+INSERT 0 1
+demo2=# insert into aw (userid,username,password,name) values (5,'sahil007','sahil123','sahilsingh');
+INSERT 0 1
+demo2=# update aw set username="tanya" where id=4;
+ERROR:  column "id" does not exist
+LINE 1: update aw set username="tanya" where id=4;
+                                             ^
+demo2=# update aw set username="tanya" where userid=4;
+ERROR:  column "tanya" does not exist
+LINE 1: update aw set username="tanya" where userid=4;
+                               ^
+demo2=# select * from aw
+demo2-# ;
+ userid |       username       |  password  |         name         
+--------+----------------------+------------+----------------------
+      1 | blabla               | Blabla123  | BlaBlaBla           
+      2 | shreya               | shreya123  | shreyabirthare      
+      3 | prashant             | prash123   | prashant            
+      4 | tanu                 | tanya123   | tanyajain           
+      5 | sahil007             | sahil123   | sahilsingh          
+(5 rows)
+
+demo2=# update aw set username='tanya' where userid=4;
+UPDATE 1
+demo2=# select * from aw
+demo2-# ;
+ userid |       username       |  password  |         name         
+--------+----------------------+------------+----------------------
+      1 | blabla               | Blabla123  | BlaBlaBla           
+      2 | shreya               | shreya123  | shreyabirthare      
+      3 | prashant             | prash123   | prashant            
+      5 | sahil007             | sahil123   | sahilsingh          
+      4 | tanya                | tanya123   | tanyajain           
+(5 rows)
+
+demo2=# delete from aw where id=5;
+ERROR:  column "id" does not exist
+LINE 1: delete from aw where id=5;
+                             ^
+demo2=# delete from aw where userid=5;
+DELETE 1
+demo2=# select * from aw;
+ userid |       username       |  password  |         name         
+--------+----------------------+------------+----------------------
+      1 | blabla               | Blabla123  | BlaBlaBla           
+      2 | shreya               | shreya123  | shreyabirthare      
+      3 | prashant             | prash123   | prashant            
+      4 | tanya                | tanya123   | tanyajain           
+(4 rows)
